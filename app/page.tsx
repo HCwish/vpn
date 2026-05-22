@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useMemo, useState } from "react";
 
 const serviceModes = [
   {
@@ -41,6 +44,17 @@ const faqs = [
 ];
 
 export default function Home() {
+  const [modeIndex, setModeIndex] = useState(0);
+  const [planIndex, setPlanIndex] = useState(0);
+  const selectedMode = serviceModes[modeIndex];
+  const selectedPlan = serverPlans[planIndex];
+  const totalPrice = selectedMode.fee + selectedPlan.serverFee;
+
+  const buyHref = useMemo(
+    () => `/pay?mode=${modeIndex}&plan=${planIndex}`,
+    [modeIndex, planIndex]
+  );
+
   return (
     <main className="min-h-screen bg-[#020b18] text-white">
       <section className="relative min-h-[92vh] overflow-hidden">
@@ -167,8 +181,8 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <SectionTitle
             eyebrow="选择商品"
-            title="收费=一次性服务费+服务器年费"
-            description="服务费只收取一次；服务器费用按年参考，实际价格以服务商当前价格为准。"
+            title="先选模式，再选服务器"
+            description="最终价格=服务模式价格+服务器年费。默认是全教程模式和入门型服务器。"
           />
 
           <div className="mt-12 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
@@ -176,42 +190,62 @@ export default function Home() {
               <div>
                 <p className="mb-3 text-sm font-semibold text-cyan-100">服务模式</p>
                 <div className="grid gap-3 md:grid-cols-2">
-                  {serviceModes.map((mode) => (
-                    <article key={mode.name} className="rounded-lg border border-white/10 bg-white/[0.055] p-5">
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <p className="text-xl font-black">{mode.name}</p>
-                          <p className="mt-3 text-sm leading-6 text-slate-300">{mode.text}</p>
+                  {serviceModes.map((mode, index) => {
+                    const isSelected = modeIndex === index;
+                    return (
+                      <button
+                        key={mode.name}
+                        type="button"
+                        onClick={() => setModeIndex(index)}
+                        className={`rounded-lg border p-5 text-left transition focus:outline-none focus:ring-2 focus:ring-cyan-100 ${
+                          isSelected ? "border-cyan-100 bg-cyan-200 text-slate-950" : "border-white/10 bg-white/[0.055] text-white hover:bg-white/[0.08]"
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-4">
+                          <div>
+                            <p className="text-xl font-black">{mode.name}</p>
+                            <p className={`mt-3 text-sm leading-6 ${isSelected ? "text-slate-800" : "text-slate-300"}`}>{mode.text}</p>
+                          </div>
+                          <span className={`rounded-full px-3 py-1 text-xs font-black ${isSelected ? "bg-slate-950 text-cyan-100" : "bg-white/10 text-cyan-100"}`}>
+                            {mode.badge}
+                          </span>
                         </div>
-                        <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-cyan-100">
-                          {mode.badge}
-                        </span>
-                      </div>
-                      <p className="mt-5 text-3xl font-black text-cyan-100">{mode.fee}元</p>
-                    </article>
-                  ))}
+                        <p className="mt-5 text-3xl font-black">{mode.fee}元</p>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
               <div>
                 <p className="mb-3 text-sm font-semibold text-cyan-100">服务器规格</p>
                 <div className="grid gap-3">
-                  {serverPlans.map((plan) => (
-                    <article key={plan.name} className="rounded-lg border border-white/10 bg-white/[0.055] p-5">
-                      <div className="grid gap-4 md:grid-cols-[0.8fr_1.2fr] md:items-center">
-                        <div>
-                          <p className="text-sm font-bold">{plan.name}</p>
-                          <p className="mt-2 text-2xl font-black">{plan.cpu}</p>
+                  {serverPlans.map((plan, index) => {
+                    const isSelected = planIndex === index;
+                    return (
+                      <button
+                        key={plan.name}
+                        type="button"
+                        onClick={() => setPlanIndex(index)}
+                        className={`rounded-lg border p-5 text-left transition focus:outline-none focus:ring-2 focus:ring-cyan-100 ${
+                          isSelected ? "border-cyan-100 bg-cyan-200 text-slate-950" : "border-white/10 bg-white/[0.055] text-white hover:bg-white/[0.08]"
+                        }`}
+                      >
+                        <div className="grid gap-4 md:grid-cols-[0.8fr_1.2fr] md:items-center">
+                          <div>
+                            <p className="text-sm font-bold">{plan.name}</p>
+                            <p className="mt-2 text-2xl font-black">{plan.cpu}</p>
+                          </div>
+                          <div className={`grid gap-2 text-sm md:grid-cols-2 ${isSelected ? "text-slate-800" : "text-slate-300"}`}>
+                            <span>{plan.storage}</span>
+                            <span>{plan.memory}</span>
+                            <span>{plan.traffic}</span>
+                            <span>每年 {plan.serverFee} 元</span>
+                          </div>
                         </div>
-                        <div className="grid gap-2 text-sm text-slate-300 md:grid-cols-2">
-                          <span>{plan.storage}</span>
-                          <span>{plan.memory}</span>
-                          <span>{plan.traffic}</span>
-                          <span>每年 {plan.serverFee} 元</span>
-                        </div>
-                      </div>
-                    </article>
-                  ))}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -219,21 +253,18 @@ export default function Home() {
             <aside className="lg:sticky lg:top-8">
               <div className="rounded-lg border border-cyan-100/[0.22] bg-[#081f38] p-6 shadow-[0_0_90px_rgba(56,189,248,0.16)]">
                 <div className="border-b border-white/10 pb-5">
-                  <p className="text-sm text-slate-400">推荐参考价</p>
-                  <p className="mt-3 text-5xl font-black text-cyan-100">458元</p>
+                  <p className="text-sm text-slate-400">当前最终价格</p>
+                  <p className="mt-3 text-5xl font-black text-cyan-100">{totalPrice}元</p>
                 </div>
                 <div className="space-y-4 py-6">
-                  <PriceLine label="服务模式" value="全教程模式" />
-                  <PriceLine label="一次性服务费" value="298元" />
-                  <PriceLine label="服务器费用" value="160元/年" />
-                  <PriceLine label="服务器规格" value="入门型" />
+                  <PriceLine label="服务模式" value={selectedMode.name} />
+                  <PriceLine label="服务价格" value={`${selectedMode.fee}元`} />
+                  <PriceLine label="服务器规格" value={selectedPlan.name} />
+                  <PriceLine label="服务器年费" value={`${selectedPlan.serverFee}元`} />
                 </div>
-                <Link href="/pay" className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-cyan-200 px-7 text-base font-bold text-slate-950 transition hover:bg-white">
+                <Link href={buyHref} className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-cyan-200 px-7 text-base font-bold text-slate-950 transition hover:bg-white">
                   立即购买
                 </Link>
-                <p className="mt-4 text-xs leading-6 text-slate-400">
-                  如需其他规格，付款后通过名片页面联系调整。
-                </p>
               </div>
             </aside>
           </div>

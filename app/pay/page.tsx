@@ -1,22 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 const buyUrl =
   "https://h5.m.goofish.com/item?forceFlush=1&id=1052728878633&ut_sk=1.aPZoNuzLYkEDAOY9u7z86CFq_12431167_1779462515970.Copy.detail.1052728878633.2218546656173";
 
 const serviceModes = [
-  {
-    name: "全教程模式",
-    fee: 298,
-    text: "远程协助，从 0 开始带你完成配置。"
-  },
-  {
-    name: "懒人模式",
-    fee: 98,
-    text: "配置完成后直接交付使用。"
-  }
+  { name: "全教程模式", fee: 298 },
+  { name: "懒人模式", fee: 98 }
 ];
 
 const serverPlans = [
@@ -31,18 +23,20 @@ export default function PayPage() {
   const [modeIndex, setModeIndex] = useState(0);
   const [planIndex, setPlanIndex] = useState(0);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setModeIndex(readIndex(params.get("mode"), serviceModes.length));
+    setPlanIndex(readIndex(params.get("plan"), serverPlans.length));
+  }, []);
+
   const selectedMode = serviceModes[modeIndex];
   const selectedPlan = serverPlans[planIndex];
   const totalPrice = selectedMode.fee + selectedPlan.serverFee;
-
-  const cardHref = useMemo(
-    () => `/card?mode=${modeIndex}&plan=${planIndex}`,
-    [modeIndex, planIndex]
-  );
+  const cardHref = `/card?mode=${modeIndex}&plan=${planIndex}`;
 
   return (
     <main className="min-h-screen bg-[#020b18] px-5 py-6 text-white sm:px-8">
-      <div className="mx-auto flex min-h-[calc(100vh-3rem)] max-w-5xl flex-col">
+      <div className="mx-auto flex min-h-[calc(100vh-3rem)] max-w-4xl flex-col">
         <header className="flex items-center justify-between">
           <Link
             href="/#pricing"
@@ -53,113 +47,37 @@ export default function PayPage() {
           <span className="text-sm font-bold text-cyan-100">VPRO BUY</span>
         </header>
 
-        <section className="py-12">
-          <div className="rounded-lg border border-cyan-100/20 bg-[#081f38] p-6 sm:p-8">
-            <div className="grid gap-8 lg:grid-cols-[1fr_20rem] lg:items-start">
-              <div className="space-y-8">
-                <div>
-                  <p className="text-sm font-semibold text-cyan-100">第一步</p>
-                  <h1 className="mt-3 text-3xl font-semibold tracking-normal sm:text-5xl">
-                    选择服务模式
-                  </h1>
-                  <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                    {serviceModes.map((mode, index) => {
-                      const isSelected = modeIndex === index;
-                      return (
-                        <button
-                          key={mode.name}
-                          type="button"
-                          onClick={() => setModeIndex(index)}
-                          className={`rounded-lg border p-5 text-left transition focus:outline-none focus:ring-2 focus:ring-cyan-100 ${
-                            isSelected
-                              ? "border-cyan-100 bg-cyan-200 text-slate-950"
-                              : "border-white/10 bg-white/[0.055] text-white hover:bg-white/[0.09]"
-                          }`}
-                        >
-                          <div className="flex items-start justify-between gap-3">
-                            <div>
-                              <p className="text-xl font-black">{mode.name}</p>
-                              <p className={`mt-2 text-sm leading-6 ${isSelected ? "text-slate-800" : "text-slate-300"}`}>
-                                {mode.text}
-                              </p>
-                            </div>
-                            <span className={`rounded-full px-3 py-1 text-xs font-black ${isSelected ? "bg-slate-950 text-cyan-100" : "bg-white/10 text-cyan-100"}`}>
-                              {mode.fee}元
-                            </span>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
+        <section className="flex flex-1 items-center py-14">
+          <div className="w-full rounded-lg border border-cyan-100/20 bg-[#081f38] p-6 sm:p-8">
+            <p className="text-sm font-semibold text-cyan-100">当前配置</p>
+            <h1 className="mt-4 text-4xl font-semibold tracking-normal">确认购买</h1>
 
-                <div>
-                  <p className="text-sm font-semibold text-cyan-100">第二步</p>
-                  <h2 className="mt-3 text-3xl font-semibold tracking-normal sm:text-5xl">
-                    选择服务器种类
-                  </h2>
-                  <div className="mt-5 grid gap-3">
-                    {serverPlans.map((plan, index) => {
-                      const isSelected = planIndex === index;
-                      return (
-                        <button
-                          key={plan.name}
-                          type="button"
-                          onClick={() => setPlanIndex(index)}
-                          className={`rounded-lg border p-5 text-left transition focus:outline-none focus:ring-2 focus:ring-cyan-100 ${
-                            isSelected
-                              ? "border-cyan-100 bg-cyan-200 text-slate-950"
-                              : "border-white/10 bg-white/[0.055] text-white hover:bg-white/[0.09]"
-                          }`}
-                        >
-                          <div className="grid gap-3 sm:grid-cols-[0.65fr_1.35fr_auto] sm:items-center">
-                            <div>
-                              <p className="text-lg font-black">{plan.name}</p>
-                              <p className={`mt-1 text-sm ${isSelected ? "text-slate-700" : "text-slate-400"}`}>
-                                {plan.serverFee}元/年
-                              </p>
-                            </div>
-                            <p className={`text-sm leading-6 ${isSelected ? "text-slate-800" : "text-slate-300"}`}>
-                              {plan.detail}
-                            </p>
-                            <span className={`rounded-full px-3 py-1 text-xs font-black ${isSelected ? "bg-slate-950 text-cyan-100" : "bg-white/10 text-cyan-100"}`}>
-                              选择
-                            </span>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
+            <div className="mt-6 grid gap-4 rounded-lg border border-white/10 bg-white/[0.055] p-5 text-sm">
+              <Line label="服务模式" value={`${selectedMode.name}（${selectedMode.fee}元）`} />
+              <Line label="服务器规格" value={`${selectedPlan.name}（${selectedPlan.serverFee}元/年）`} />
+              <Line label="配置详情" value={selectedPlan.detail} />
+            </div>
 
-              <aside className="rounded-lg border border-cyan-100/25 bg-slate-950/40 p-6 lg:sticky lg:top-8">
-                <p className="text-sm font-semibold text-cyan-100">最终价格</p>
-                <p className="mt-3 text-5xl font-black text-cyan-100">{totalPrice}元</p>
+            <div className="mt-6 rounded-lg bg-cyan-200 p-5 text-slate-950">
+              <p className="text-sm font-black">最终价格</p>
+              <p className="mt-2 text-5xl font-black">{totalPrice}元</p>
+            </div>
 
-                <div className="my-6 space-y-3 border-y border-white/10 py-5 text-sm">
-                  <Line label="服务模式" value={`${selectedMode.name} ${selectedMode.fee}元`} />
-                  <Line label="服务器" value={`${selectedPlan.name} ${selectedPlan.serverFee}元/年`} />
-                  <Line label="配置" value={selectedPlan.detail} />
-                </div>
-
-                <div className="grid gap-3">
-                  <a
-                    href={buyUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex min-h-12 items-center justify-center rounded-full bg-cyan-200 px-7 text-base font-bold text-slate-950 transition hover:bg-white"
-                  >
-                    去付款
-                  </a>
-                  <Link
-                    href={cardHref}
-                    className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-7 text-base font-bold text-slate-950 transition hover:bg-cyan-100"
-                  >
-                    已付款
-                  </Link>
-                </div>
-              </aside>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <a
+                href={buyUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-cyan-200 px-7 text-base font-bold text-slate-950"
+              >
+                去付款
+              </a>
+              <Link
+                href={cardHref}
+                className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-7 text-base font-bold text-slate-950"
+              >
+                已付款
+              </Link>
             </div>
           </div>
         </section>
@@ -170,9 +88,19 @@ export default function PayPage() {
 
 function Line({ label, value }: { label: string; value: string }) {
   return (
-    <div className="grid gap-1">
+    <div className="grid gap-1 sm:grid-cols-[6rem_1fr]">
       <span className="text-slate-400">{label}</span>
       <span className="font-bold text-white">{value}</span>
     </div>
   );
+}
+
+function readIndex(value: string | null, max: number) {
+  const parsed = Number(value);
+
+  if (!Number.isInteger(parsed) || parsed < 0 || parsed >= max) {
+    return 0;
+  }
+
+  return parsed;
 }
