@@ -132,7 +132,7 @@ export default function PayPage() {
   }, [orderPayload, selectionReady]);
 
   useEffect(() => {
-    if (!orderId || status !== "pending") {
+    if (!orderId || !["pending", "manual"].includes(status)) {
       return;
     }
 
