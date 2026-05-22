@@ -21,7 +21,16 @@ export async function onRequestGet({ request, env }) {
   return json({
     orderId,
     status: order.status || "pending",
-    paidAt: order.paidAt || null
+    paidAt: order.paidAt || null,
+    merchantCallback: order.merchantCallback
+      ? {
+          configured: Boolean(order.merchantCallback.configured),
+          ok: Boolean(order.merchantCallback.ok),
+          status: order.merchantCallback.status || 0,
+          attempts: order.merchantCallback.attempts || 0,
+          sentAt: order.merchantCallback.sentAt || null
+        }
+      : null
   });
 }
 
