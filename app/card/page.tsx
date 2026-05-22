@@ -19,7 +19,7 @@ const contactRows = [
   {
     label: "邮箱",
     value: "hcwishpro@gmail.com",
-    href: "mailto:hcwishpro@gmail.com?subject=%E8%B4%AD%E4%B9%B0%E6%9C%8D%E5%8A%A1%E5%99%A8&body=%E8%B4%AD%E4%B9%B0%E6%9C%8D%E5%8A%A1%E5%99%A8",
+    href: "mailto:hcwishpro@gmail.com?subject=%E5%BC%80%E9%80%9A%E7%A7%81%E4%BA%BA%E8%8A%82%E7%82%B9%E6%9C%8D%E5%8A%A1&body=%E5%BC%80%E9%80%9A%E7%A7%81%E4%BA%BA%E8%8A%82%E7%82%B9%E6%9C%8D%E5%8A%A1",
     action: "发送邮件"
   }
 ];
@@ -50,10 +50,10 @@ export default function CardPage() {
                 </span>
                 <p className="mt-8 text-sm font-semibold text-cyan-100">个人名片</p>
                 <h1 className="mt-4 text-4xl font-semibold leading-tight tracking-normal text-white sm:text-6xl">
-                  联系购买服务器
+                  联系开通服务
                 </h1>
                 <p className="mt-6 text-base leading-8 text-slate-300 sm:text-lg">
-                  可通过 QQ 或邮箱联系。发送关键词“购买服务器”，我会根据你的使用需求回复配置方式。
+                  可通过 QQ 或邮箱联系。发送关键词“开通私人节点服务”，我会根据你的使用需求回复配置方式。
                 </p>
               </div>
 
@@ -83,7 +83,7 @@ export default function CardPage() {
                     <Send className="h-5 w-5" aria-hidden="true" />
                     <p className="text-sm font-black">联系时请发送</p>
                   </div>
-                  <p className="mt-4 text-3xl font-black">购买服务器</p>
+                  <p className="mt-4 text-3xl font-black">开通私人节点服务</p>
                 </div>
               </div>
             </div>

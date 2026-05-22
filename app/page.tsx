@@ -3,22 +3,23 @@
 import Image from "next/image";
 import { type ReactNode, useState } from "react";
 import {
+  AlertTriangle,
   ArrowRight,
   CheckCircle2,
   Gauge,
   Globe2,
   Mail,
   MessageCircle,
+  MonitorCog,
   MousePointerClick,
   ServerCog,
   ShieldCheck,
+  Smartphone,
   Sparkles,
   UserCheck,
   Wifi,
   XCircle
 } from "lucide-react";
-
-const installFee = 298;
 
 const promiseItems = [
   "私人 VPN 服务器梯子节点",
@@ -57,21 +58,36 @@ const privateBenefits = [
   "一人一服，资源自己使用",
   "不额外限速，体验更可控",
   "美国节点明确，适合日常访问",
-  "远程配置交付，后续更好维护"
+  "专属环境交付，后续更好维护"
 ];
 
 const platformCards = [
   { name: "Netflix", mark: "N", style: "bg-[#e50914] text-white" },
   { name: "ChatGPT", mark: "GPT", style: "bg-[#10a37f] text-white" },
-  { name: "YouTube", mark: "▶", style: "bg-[#ff0033] text-white" },
+  { name: "YouTube", mark: "YT", style: "bg-[#ff0033] text-white" },
   { name: "Google", mark: "G", style: "bg-white text-[#4285f4]" }
 ];
 
 const setupSteps = [
   "确认需求",
-  "购买服务器",
-  "远程配置",
-  "交付使用"
+  "选择模式",
+  "配置交付",
+  "开始使用"
+];
+
+const serviceModes = [
+  {
+    name: "全教程模式",
+    fee: 298,
+    badge: "推荐",
+    text: "包含远程操控和从0开始的全部步骤教程，适合想学会完整流程的用户。"
+  },
+  {
+    name: "懒人模式",
+    fee: 98,
+    badge: "省心",
+    text: "无远程安装环节，等待搭建好后直接使用，适合只想快速开通的用户。"
+  }
 ];
 
 const serverPlans = [
@@ -117,10 +133,58 @@ const serverPlans = [
   }
 ];
 
+const faqItems = [
+  {
+    question: "我家网不好有影响吗？",
+    answer: "有影响。VPN 速度取决于原网速，若未连接 VPN 时本身卡顿，连接后也可能卡顿。"
+  },
+  {
+    question: "服务费包含什么？",
+    answer: "懒人模式包含搭建完成后的交付使用；全教程模式包含远程操控、服务器环境配置、优化插件、应用软件和现场截图教程留存。"
+  },
+  {
+    question: "是一次性费用还是每年都收？",
+    answer: "服务费只收取一次。服务器是固定资源，到期后如果继续使用，需要按年续费服务器费用。"
+  },
+  {
+    question: "后续换手机、换电脑还收费吗？",
+    answer: "不收费。服务器在有效期内更换设备仍可使用，但目前仅支持 Windows（exe）和安卓（apk）设备。"
+  },
+  {
+    question: "出问题谁负责？",
+    answer: "安装和配置问题会协助解答。使用问题可能因多人使用、异常流量、频繁切换设备、风险操作等原因导致无法连接、IP 被限制或服务器被封禁；如需更换服务器产生的费用由用户自行承担。"
+  },
+  {
+    question: "不满意能否退款？",
+    answer: "未开始配置可退，已完成配置不支持退款。"
+  },
+  {
+    question: "服务器账号归谁？",
+    answer: "归客户本人所有。服务器到期后可以选择续费，也可以自行购买更合适的服务器。"
+  }
+];
+
+const testimonials = [
+  {
+    name: "156*****",
+    text: "选的懒人模式，等搭好后直接用，整体很省事，说明也讲得清楚。"
+  },
+  {
+    name: "188*****",
+    text: "全教程模式很适合新手，远程一步步带着做完，后面换设备也知道怎么处理。"
+  },
+  {
+    name: "139*****",
+    text: "私人节点比之前共享的稳定很多，日常访问和办公资料查询都顺畅不少。"
+  }
+];
+
 export default function Home() {
   const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
+  const [selectedModeIndex, setSelectedModeIndex] = useState(0);
   const selectedPlan = serverPlans[selectedPlanIndex];
-  const totalPrice = installFee + selectedPlan.serverFee;
+  const selectedMode = serviceModes[selectedModeIndex];
+  const totalPrice = selectedMode.fee + selectedPlan.serverFee;
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#020b18] text-white">
@@ -157,7 +221,7 @@ export default function Home() {
                 href="/card"
                 className="inline-flex min-h-10 items-center gap-2 rounded-full bg-white px-4 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-100"
               >
-                联系购买
+                联系开通
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </a>
             </nav>
@@ -167,7 +231,7 @@ export default function Home() {
             <div className="max-w-5xl">
               <p className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-100/25 bg-white/10 px-4 py-2 text-sm font-medium text-cyan-50 backdrop-blur">
                 <Sparkles className="h-4 w-4" aria-hidden="true" />
-                一人一服 · 专属使用 · 远程配置
+                一人一服 · 专属使用 · 两种开通模式
               </p>
               <h1 className="mx-auto max-w-5xl text-4xl font-semibold leading-tight tracking-normal text-white sm:text-6xl lg:text-7xl">
                 私人 VPN 服务器梯子节点
@@ -181,7 +245,7 @@ export default function Home() {
                   className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-cyan-200 px-7 text-base font-bold text-slate-950 shadow-[0_0_48px_rgba(103,232,249,0.24)] transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-100 sm:w-auto"
                 >
                   <MessageCircle className="h-5 w-5" aria-hidden="true" />
-                  发送“购买服务器”
+                  发送“开通私人节点服务”
                 </a>
                 <a
                   href="#pricing"
@@ -209,12 +273,10 @@ export default function Home() {
 
       <section id="details" className="bg-[#020b18] px-5 py-20 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-4xl text-center">
-            <p className="text-sm font-semibold text-cyan-100">核心体验</p>
-            <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
-              更像你的私人网络工具，而不是拥挤的公共资源。
-            </h2>
-          </div>
+          <SectionTitle
+            eyebrow="核心体验"
+            title="更像你的私人网络工具，而不是拥挤的公共资源。"
+          />
 
           <div className="mt-12 grid gap-4 lg:grid-cols-3">
             {productPoints.map((point) => {
@@ -238,12 +300,10 @@ export default function Home() {
 
       <section className="border-y border-white/10 bg-[#061528] px-5 py-20 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-4xl text-center">
-            <p className="text-sm font-semibold text-cyan-100">共享节点 vs 私人节点</p>
-            <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
-              重点不是“能不能用”，而是长期使用是否省心。
-            </h2>
-          </div>
+          <SectionTitle
+            eyebrow="共享节点 vs 私人节点"
+            title="重点不是“能不能用”，而是长期使用是否省心。"
+          />
 
           <div className="mt-12 grid gap-5 lg:grid-cols-2">
             <ComparePanel
@@ -289,6 +349,24 @@ export default function Home() {
       </section>
 
       <section className="border-y border-white/10 bg-[#061528] px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <div>
+            <p className="text-sm font-semibold text-cyan-100">支持设备</p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
+              目前仅支持 Windows（exe）和安卓（apk）设备。
+            </h2>
+            <p className="mt-6 text-base leading-8 text-slate-300 sm:text-lg">
+              开通前请确认你的设备类型。iPhone、iPad、Mac 等设备暂不在当前服务支持范围内。
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <DeviceCard icon={<MonitorCog className="h-7 w-7" />} title="Windows" text="使用 exe 应用" />
+            <DeviceCard icon={<Smartphone className="h-7 w-7" />} title="安卓" text="使用 apk 应用" />
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#020b18] px-5 py-20 sm:px-8 lg:px-10">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
           <div>
             <p className="text-sm font-semibold text-cyan-100">速度说明</p>
@@ -320,13 +398,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#020b18] px-5 py-20 sm:px-8 lg:px-10">
+      <section className="border-y border-white/10 bg-[#061528] px-5 py-20 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
             <div>
-              <p className="text-sm font-semibold text-cyan-100">购买与配置</p>
+              <p className="text-sm font-semibold text-cyan-100">开通与交付</p>
               <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
-                从沟通到交付，按步骤完成。
+                从沟通到使用，按步骤完成。
               </h2>
             </div>
             <div className="grid gap-3">
@@ -346,53 +424,92 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="pricing" className="border-y border-white/10 bg-[#061528] px-5 py-20 sm:px-8 lg:px-10">
+      <section id="pricing" className="bg-[#020b18] px-5 py-20 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          <div className="mx-auto max-w-4xl text-center">
-            <p className="text-sm font-semibold text-cyan-100">服务器价目表</p>
-            <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
-              收费=远程安装费用298元+服务器费用。
-            </h2>
-            <p className="mt-5 text-base leading-8 text-slate-300">
-              服务器费用按年参考，实际价格以服务商当前价格为准。选择不同规格，下方固定价格面板会显示对应参考总价。
-            </p>
-          </div>
+          <SectionTitle
+            eyebrow="服务器价目表"
+            title="收费=一次性服务费+服务器年费。"
+            description="服务费只收取一次。服务器费用按年参考，实际价格以服务商当前价格为准。选择模式和规格后，右侧固定价格面板会显示对应参考总价。"
+          />
 
           <div className="mt-12 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-            <div className="grid gap-3">
-              {serverPlans.map((plan, index) => {
-                const isSelected = selectedPlanIndex === index;
-                return (
-                  <button
-                    key={plan.name}
-                    type="button"
-                    aria-pressed={isSelected}
-                    onClick={() => setSelectedPlanIndex(index)}
-                    className={`min-h-24 rounded-lg border p-5 text-left transition focus:outline-none focus:ring-2 focus:ring-cyan-100 ${
-                      isSelected
-                        ? "border-cyan-100 bg-cyan-200 text-slate-950 shadow-[0_0_50px_rgba(103,232,249,0.2)]"
-                        : "border-white/10 bg-white/[0.055] text-white hover:border-cyan-100/[0.42] hover:bg-white/[0.08]"
-                    }`}
-                  >
-                    <div className="grid gap-4 md:grid-cols-[0.8fr_1.2fr] md:items-center">
-                      <div>
-                        <p className="text-sm font-bold">{plan.name}</p>
-                        <p className="mt-2 text-2xl font-black">{plan.cpu}</p>
-                      </div>
-                      <div className={`grid gap-2 text-sm md:grid-cols-2 ${isSelected ? "text-slate-800" : "text-slate-300"}`}>
-                        <span>{plan.storage}</span>
-                        <span>{plan.memory}</span>
-                        <span>{plan.traffic}</span>
-                        <span>每年 {plan.serverFee} 元</span>
-                      </div>
-                    </div>
-                  </button>
-                );
-              })}
+            <div className="space-y-6">
+              <div>
+                <p className="mb-3 text-sm font-semibold text-cyan-100">选择服务模式</p>
+                <div className="grid gap-3 md:grid-cols-2">
+                  {serviceModes.map((mode, index) => {
+                    const isSelected = selectedModeIndex === index;
+                    return (
+                      <button
+                        key={mode.name}
+                        type="button"
+                        aria-pressed={isSelected}
+                        onClick={() => setSelectedModeIndex(index)}
+                        className={`rounded-lg border p-5 text-left transition focus:outline-none focus:ring-2 focus:ring-cyan-100 ${
+                          isSelected
+                            ? "border-cyan-100 bg-cyan-200 text-slate-950 shadow-[0_0_50px_rgba(103,232,249,0.2)]"
+                            : "border-white/10 bg-white/[0.055] text-white hover:border-cyan-100/[0.42] hover:bg-white/[0.08]"
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-4">
+                          <div>
+                            <p className="text-xl font-black">{mode.name}</p>
+                            <p className={`mt-3 text-sm leading-6 ${isSelected ? "text-slate-800" : "text-slate-300"}`}>
+                              {mode.text}
+                            </p>
+                          </div>
+                          <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-black ${isSelected ? "bg-slate-950 text-cyan-100" : "bg-white/10 text-cyan-100"}`}>
+                            {mode.badge}
+                          </span>
+                        </div>
+                        <p className="mt-5 text-3xl font-black">{mode.fee}元</p>
+                        <p className={`mt-1 text-xs ${isSelected ? "text-slate-700" : "text-slate-400"}`}>
+                          一次性服务费，只收取一次
+                        </p>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <p className="mb-3 text-sm font-semibold text-cyan-100">选择服务器规格</p>
+                <div className="grid gap-3">
+                  {serverPlans.map((plan, index) => {
+                    const isSelected = selectedPlanIndex === index;
+                    return (
+                      <button
+                        key={plan.name}
+                        type="button"
+                        aria-pressed={isSelected}
+                        onClick={() => setSelectedPlanIndex(index)}
+                        className={`min-h-24 rounded-lg border p-5 text-left transition focus:outline-none focus:ring-2 focus:ring-cyan-100 ${
+                          isSelected
+                            ? "border-cyan-100 bg-cyan-200 text-slate-950 shadow-[0_0_50px_rgba(103,232,249,0.2)]"
+                            : "border-white/10 bg-white/[0.055] text-white hover:border-cyan-100/[0.42] hover:bg-white/[0.08]"
+                        }`}
+                      >
+                        <div className="grid gap-4 md:grid-cols-[0.8fr_1.2fr] md:items-center">
+                          <div>
+                            <p className="text-sm font-bold">{plan.name}</p>
+                            <p className="mt-2 text-2xl font-black">{plan.cpu}</p>
+                          </div>
+                          <div className={`grid gap-2 text-sm md:grid-cols-2 ${isSelected ? "text-slate-800" : "text-slate-300"}`}>
+                            <span>{plan.storage}</span>
+                            <span>{plan.memory}</span>
+                            <span>{plan.traffic}</span>
+                            <span>每年 {plan.serverFee} 元</span>
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
 
             <aside className="lg:sticky lg:top-8">
-              <div className="min-h-[420px] rounded-lg border border-cyan-100/[0.22] bg-[#081f38] p-6 shadow-[0_0_90px_rgba(56,189,248,0.16)]">
+              <div className="min-h-[460px] rounded-lg border border-cyan-100/[0.22] bg-[#081f38] p-6 shadow-[0_0_90px_rgba(56,189,248,0.16)]">
                 <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-5">
                   <div>
                     <p className="text-sm text-slate-400">当前参考价格</p>
@@ -406,15 +523,16 @@ export default function Home() {
                 </div>
 
                 <div className="space-y-4 py-6">
-                  <PriceLine label="远程安装费用" value={`${installFee}元`} />
+                  <PriceLine label="服务模式" value={selectedMode.name} />
+                  <PriceLine label="一次性服务费" value={`${selectedMode.fee}元`} />
                   <PriceLine label="服务器费用" value={`${selectedPlan.serverFee}元/年`} />
-                  <PriceLine label="选择规格" value={selectedPlan.name} />
+                  <PriceLine label="服务器规格" value={selectedPlan.name} />
                 </div>
 
                 <div className="rounded-lg bg-white/[0.055] p-5 text-sm leading-7 text-slate-300">
                   <p className="font-semibold text-white">详情：</p>
                   <p className="mt-2">
-                    安装费{installFee}元+服务器{selectedPlan.serverFee}元/年。
+                    {selectedMode.name}一次性服务费{selectedMode.fee}元+服务器{selectedPlan.serverFee}元/年。
                     当前规格为{selectedPlan.cpu}、{selectedPlan.storage}、{selectedPlan.memory}、{selectedPlan.traffic}。
                   </p>
                 </div>
@@ -424,12 +542,76 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="border-y border-white/10 bg-[#061528] px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <SectionTitle
+            eyebrow="真实用户反馈"
+            title="来自已开通用户的正向评价。"
+          />
+          <div className="mt-12 grid gap-4 md:grid-cols-3">
+            {testimonials.map((item, index) => (
+              <article
+                key={item.name}
+                className="rounded-lg border border-white/10 bg-white/[0.055] p-6"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="h-14 w-14 overflow-hidden rounded-full bg-slate-800">
+                    <div className={`h-full w-full scale-125 blur-sm ${index === 0 ? "bg-[radial-gradient(circle_at_30%_28%,#67e8f9,#1e3a8a_58%,#020617)]" : index === 1 ? "bg-[radial-gradient(circle_at_35%_32%,#f0abfc,#0f766e_58%,#020617)]" : "bg-[radial-gradient(circle_at_35%_30%,#facc15,#0ea5e9_54%,#020617)]"}`} />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-white">{item.name}</p>
+                    <p className="mt-1 text-sm text-cyan-100">已开通用户</p>
+                  </div>
+                </div>
+                <p className="mt-6 text-base leading-8 text-slate-300">{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#020b18] px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <SectionTitle
+            eyebrow="常见问答"
+            title="开通前，把关键问题说清楚。"
+          />
+          <div className="mt-12 grid gap-4 lg:grid-cols-2">
+            {faqItems.map((item) => (
+              <article
+                key={item.question}
+                className="rounded-lg border border-white/10 bg-white/[0.052] p-6"
+              >
+                <h3 className="text-xl font-semibold text-white">问：{item.question}</h3>
+                <p className="mt-4 text-base leading-8 text-slate-300">答：{item.answer}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-red-300/[0.24] bg-[#190b10] px-5 py-16 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-7xl rounded-lg border border-red-300/[0.26] bg-red-950/[0.32] p-6">
+          <div className="flex flex-col gap-5 md:flex-row md:items-start">
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-red-200 text-red-950">
+              <AlertTriangle className="h-6 w-6" aria-hidden="true" />
+            </span>
+            <div>
+              <h2 className="text-2xl font-semibold text-white">合规使用警示</h2>
+              <p className="mt-4 text-base leading-8 text-red-50/90">
+                禁止违法违规用途，本服务仅供合法合规的网络访问、学习、办公和个人使用。禁止用于诈骗、攻击、盗号、垃圾注册、爬虫滥用、传播违法内容等任何违规行为。因用户个人行为产生的法律责任由用户自行承担。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-[#020b18] px-5 py-20 sm:px-8 lg:px-10">
         <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-3">
           <Notice
             icon={<CheckCircle2 className="h-6 w-6" aria-hidden="true" />}
             title="费用说明"
-            text="远程安装费用298元，服务器费用另计。入门规格服务器费用参考160元/年，总参考价格458元。"
+            text="服务费只收取一次：懒人模式98元，全教程模式298元；服务器费用另计，入门规格参考160元/年。"
           />
           <Notice
             icon={<ShieldCheck className="h-6 w-6" aria-hidden="true" />}
@@ -448,9 +630,9 @@ export default function Home() {
         <div className="mx-auto max-w-7xl rounded-lg border border-cyan-100/[0.18] bg-[linear-gradient(135deg,rgba(14,116,144,0.25),rgba(15,23,42,0.86))] p-7 shadow-[0_0_90px_rgba(56,189,248,0.14)] sm:p-10">
           <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
             <div>
-              <p className="text-sm font-semibold text-cyan-100">准备购买</p>
+              <p className="text-sm font-semibold text-cyan-100">准备开通</p>
               <h2 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
-                点击进入个人名片，发送“购买服务器”即可联系。
+                点击进入个人名片，发送“开通私人节点服务”即可联系。
               </h2>
             </div>
             <a
@@ -464,6 +646,28 @@ export default function Home() {
         </div>
       </section>
     </main>
+  );
+}
+
+function SectionTitle({
+  eyebrow,
+  title,
+  description
+}: {
+  eyebrow: string;
+  title: string;
+  description?: string;
+}) {
+  return (
+    <div className="mx-auto max-w-4xl text-center">
+      <p className="text-sm font-semibold text-cyan-100">{eyebrow}</p>
+      <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
+        {title}
+      </h2>
+      {description ? (
+        <p className="mt-5 text-base leading-8 text-slate-300">{description}</p>
+      ) : null}
+    </div>
   );
 }
 
@@ -512,6 +716,26 @@ function ComparePanel({
           </div>
         ))}
       </div>
+    </article>
+  );
+}
+
+function DeviceCard({
+  icon,
+  title,
+  text
+}: {
+  icon: ReactNode;
+  title: string;
+  text: string;
+}) {
+  return (
+    <article className="rounded-lg border border-white/10 bg-white/[0.055] p-6">
+      <span className="grid h-14 w-14 place-items-center rounded-full bg-cyan-200 text-slate-950">
+        {icon}
+      </span>
+      <h3 className="mt-8 text-2xl font-semibold text-white">{title}</h3>
+      <p className="mt-3 text-base text-slate-300">{text}</p>
     </article>
   );
 }
