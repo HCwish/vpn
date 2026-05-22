@@ -1,6 +1,6 @@
-# 私人服务器环境配置服务
+# 私人 VPN 服务器梯子节点
 
-基于 Next.js 与 Tailwind CSS 的中文单页服务网站，可直接部署到 Vercel。
+基于 Next.js 与 Tailwind CSS 的中文单页网站，可部署到 Cloudflare Pages 或 Vercel。
 
 也已配置为静态导出，适合部署到 Cloudflare Pages。新手部署步骤见 `DEPLOY_CLOUDFLARE.md`。
 

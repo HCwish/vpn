@@ -1,146 +1,161 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import {
-  AlertTriangle,
   ArrowRight,
   CheckCircle2,
-  CircleDollarSign,
-  Headphones,
+  Gauge,
+  Globe2,
+  Mail,
   MessageCircle,
-  MonitorCog,
   MousePointerClick,
-  PackageCheck,
-  PhoneCall,
-  Route,
   ServerCog,
   ShieldCheck,
-  Smartphone,
   Sparkles,
-  UserCheck
+  UserCheck,
+  Wifi
 } from "lucide-react";
 
-const highlights = [
-  { title: "独享使用", icon: UserCheck },
-  { title: "稳定流畅", icon: Sparkles },
-  { title: "远程安装", icon: MonitorCog },
-  { title: "售后指导", icon: Headphones },
-  { title: "长期可用", icon: ShieldCheck }
+const promiseItems = [
+  "私人 VPN 服务器梯子节点",
+  "自己独享",
+  "不限速不卡顿",
+  "美国节点",
+  "海外网络访问"
 ];
 
-const processSteps = [
-  { title: "咨询沟通", text: "确认个人需求、设备情况与交付方式。" },
-  { title: "购买服务器", text: "按预算选择合适配置，费用透明分开。" },
-  { title: "远程配置", text: "由技术人员完成基础环境搭建与调试。" },
-  { title: "交付使用", text: "完成验收，提供后续使用说明。" }
+const productPoints = [
+  {
+    title: "自己独享",
+    text: "不和陌生人共享，不挤公共线路，使用边界更清楚。",
+    icon: UserCheck
+  },
+  {
+    title: "不限速不卡顿",
+    text: "服务本身不额外限速，实际网速由你当前正常网速、设备和线路状态决定。",
+    icon: Gauge
+  },
+  {
+    title: "美国节点",
+    text: "适合日常网络加速、海外网络访问、账号日常使用等个人场景。",
+    icon: Globe2
+  }
 ];
 
-const installModes = [
-  { title: "远程协助", icon: MonitorCog },
-  { title: "语音指导", icon: PhoneCall },
-  { title: "截图教程", icon: Smartphone },
-  { title: "懒人模式", icon: MousePointerClick }
+const setupSteps = [
+  "确认需求",
+  "购买服务器",
+  "远程配置",
+  "交付使用"
 ];
 
 export default function Home() {
   return (
-    <main className="min-h-screen overflow-hidden bg-ink text-slate-50">
-      <section className="relative min-h-[92vh] overflow-hidden">
+    <main className="min-h-screen overflow-hidden bg-[#020b18] text-white">
+      <section className="relative min-h-screen overflow-hidden">
         <Image
           src="/server-hero.png"
-          alt="深蓝色服务器环境配置视觉图"
+          alt="深蓝服务器节点视觉"
           fill
           priority
           sizes="100vw"
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,14,25,0.98)_0%,rgba(4,14,25,0.86)_39%,rgba(4,14,25,0.34)_100%)]" />
-        <div className="absolute inset-0 tech-grid opacity-[0.45]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,11,24,0.38)_0%,rgba(2,11,24,0.92)_78%,#020b18_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_18%,rgba(56,189,248,0.22),transparent_28rem)]" />
 
-        <div className="relative z-10 mx-auto flex min-h-[92vh] w-full max-w-7xl flex-col px-5 py-6 sm:px-8 lg:px-10">
+        <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-5 py-6 sm:px-8 lg:px-10">
           <header className="flex items-center justify-between gap-4">
-            <a href="#" className="flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center rounded border border-cyan-300/30 bg-cyan-300/10 shadow-glow">
-                <ServerCog className="h-5 w-5 text-cyan-200" aria-hidden="true" />
+            <a href="#" className="flex min-w-0 items-center gap-3">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-cyan-200/30 bg-white/10 backdrop-blur">
+                <ServerCog className="h-5 w-5 text-cyan-100" aria-hidden="true" />
               </span>
-              <span className="text-sm font-semibold tracking-[0.22em] text-cyan-100">
-                私人配置服务
+              <span className="truncate text-sm font-semibold text-cyan-50">
+                VPRO 私人节点
               </span>
             </a>
-            <a
-              href="#contact"
-              className="inline-flex min-h-11 items-center gap-2 rounded border border-cyan-200/[0.35] bg-cyan-200/10 px-4 text-sm font-semibold text-cyan-50 transition hover:border-cyan-100 hover:bg-cyan-200/[0.18] focus:outline-none focus:ring-2 focus:ring-cyan-200/70"
-            >
-              <MessageCircle className="h-4 w-4" aria-hidden="true" />
-              联系咨询
-            </a>
+            <nav className="flex items-center gap-2">
+              <a
+                href="#details"
+                className="hidden min-h-10 items-center rounded-full px-4 text-sm font-medium text-slate-200 transition hover:bg-white/10 sm:inline-flex"
+              >
+                了解详情
+              </a>
+              <a
+                href="/card"
+                className="inline-flex min-h-10 items-center gap-2 rounded-full bg-white px-4 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-100"
+              >
+                联系购买
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </a>
+            </nav>
           </header>
 
-          <div className="flex flex-1 items-center py-16 sm:py-20">
-            <div className="max-w-3xl">
-              <p className="mb-5 inline-flex items-center gap-2 rounded border border-cyan-300/25 bg-cyan-300/10 px-3 py-2 text-sm font-medium text-cyan-100">
-                <ShieldCheck className="h-4 w-4" aria-hidden="true" />
-                一对一技术配置与交付
+          <div className="flex flex-1 items-center justify-center py-16 text-center sm:py-24">
+            <div className="max-w-5xl">
+              <p className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-100/25 bg-white/10 px-4 py-2 text-sm font-medium text-cyan-50 backdrop-blur">
+                <Sparkles className="h-4 w-4" aria-hidden="true" />
+                一人一服 · 专属使用 · 远程配置
               </p>
-              <h1 className="text-4xl font-semibold leading-tight tracking-normal text-white sm:text-6xl lg:text-7xl">
-                私人服务器环境配置服务
+              <h1 className="mx-auto max-w-5xl text-4xl font-semibold leading-tight tracking-normal text-white sm:text-6xl lg:text-7xl">
+                私人 VPN 服务器梯子节点
               </h1>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-slate-200 sm:text-lg">
-                面向个人使用场景，提供服务器环境搭建、远程安装、交付指导与后续答疑，让配置过程更省心，日常使用更清晰。
+              <p className="mx-auto mt-7 max-w-3xl text-lg leading-9 text-slate-200 sm:text-xl">
+                自己独享，不限速不卡顿。具体网速由你当前正常网速决定，节点为美国，适合日常网络加速与海外网络访问。
               </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <a
-                  href="#contact"
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded bg-cyan-300 px-6 text-base font-bold text-slate-950 shadow-glow transition hover:bg-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-100"
+                  href="/card"
+                  className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-cyan-200 px-7 text-base font-bold text-slate-950 shadow-[0_0_48px_rgba(103,232,249,0.24)] transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-100 sm:w-auto"
                 >
                   <MessageCircle className="h-5 w-5" aria-hidden="true" />
-                  立即联系
+                  发送“购买服务器”
                 </a>
                 <a
-                  href="#process"
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded border border-white/[0.18] bg-white/[0.08] px-6 text-base font-semibold text-white transition hover:bg-white/[0.14] focus:outline-none focus:ring-2 focus:ring-white/60"
+                  href="#details"
+                  className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-white/[0.18] bg-white/10 px-7 text-base font-semibold text-white backdrop-blur transition hover:bg-white/[0.16] focus:outline-none focus:ring-2 focus:ring-white/60 sm:w-auto"
                 >
-                  查看流程
+                  查看节点说明
                   <ArrowRight className="h-5 w-5" aria-hidden="true" />
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="grid gap-3 pb-6 sm:grid-cols-2 lg:grid-cols-5">
-            {highlights.map((item) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={item.title}
-                  className="flex min-h-20 items-center gap-3 rounded border border-cyan-200/[0.18] bg-slate-950/[0.48] px-4 py-4 backdrop-blur"
-                >
-                  <Icon className="h-5 w-5 shrink-0 text-cyan-200" aria-hidden="true" />
-                  <span className="text-sm font-semibold text-slate-50">{item.title}</span>
-                </div>
-              );
-            })}
+          <div className="grid gap-3 pb-5 sm:grid-cols-2 lg:grid-cols-5">
+            {promiseItems.map((item) => (
+              <div
+                key={item}
+                className="flex min-h-16 items-center justify-center rounded-full border border-white/10 bg-slate-950/[0.42] px-4 text-center text-sm font-semibold text-slate-100 backdrop-blur"
+              >
+                {item}
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="border-y border-line bg-[#071827] px-5 py-16 sm:px-8 lg:px-10">
+      <section id="details" className="bg-[#020b18] px-5 py-20 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          <SectionIntro
-            icon={<CheckCircle2 className="h-5 w-5" aria-hidden="true" />}
-            eyebrow="核心卖点"
-            title="把复杂配置交给专业流程"
-            description="围绕个人独享、稳定体验、远程交付与长期指导来设计服务，减少反复试错。"
-          />
-          <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {highlights.map((item) => {
-              const Icon = item.icon;
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="text-sm font-semibold text-cyan-100">核心体验</p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
+              更像你的私人网络工具，而不是拥挤的公共资源。
+            </h2>
+          </div>
+
+          <div className="mt-12 grid gap-4 lg:grid-cols-3">
+            {productPoints.map((point) => {
+              const Icon = point.icon;
               return (
                 <article
-                  key={item.title}
-                  className="rounded border border-white/10 bg-white/[0.045] p-5 shadow-glow"
+                  key={point.title}
+                  className="min-h-64 rounded-lg border border-white/10 bg-white/[0.055] p-6 shadow-[0_20px_70px_rgba(0,0,0,0.24)] backdrop-blur"
                 >
-                  <Icon className="h-7 w-7 text-cyan-200" aria-hidden="true" />
-                  <h3 className="mt-5 text-lg font-semibold text-white">{item.title}</h3>
+                  <span className="grid h-12 w-12 place-items-center rounded-full bg-cyan-200 text-slate-950">
+                    <Icon className="h-6 w-6" aria-hidden="true" />
+                  </span>
+                  <h3 className="mt-9 text-2xl font-semibold text-white">{point.title}</h3>
+                  <p className="mt-4 text-base leading-8 text-slate-300">{point.text}</p>
                 </article>
               );
             })}
@@ -148,144 +163,132 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="process" className="bg-[#061525] px-5 py-16 sm:px-8 lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <SectionIntro
-            icon={<Route className="h-5 w-5" aria-hidden="true" />}
-            eyebrow="服务流程"
-            title="四步完成配置交付"
-            description="从前期沟通到最终使用，过程清晰，责任边界明确。"
-          />
-          <div className="mt-10 grid gap-4 md:grid-cols-4">
-            {processSteps.map((step, index) => (
-              <article
-                key={step.title}
-                className="relative rounded border border-cyan-200/[0.18] bg-panel/70 p-5"
-              >
-                <div className="mb-6 flex h-10 w-10 items-center justify-center rounded bg-cyan-300 text-sm font-black text-slate-950">
-                  {index + 1}
-                </div>
-                <h3 className="text-xl font-semibold text-white">{step.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-300">{step.text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-line bg-[#081d30] px-5 py-16 sm:px-8 lg:px-10">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+      <section className="border-y border-white/10 bg-[#061528] px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
           <div>
-            <SectionIntro
-              icon={<PackageCheck className="h-5 w-5" aria-hidden="true" />}
-              eyebrow="安装方式"
-              title="按你的熟悉程度选择"
-              description="可轻量指导，也可全程远程协助，适合不同基础的个人用户。"
-            />
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {installModes.map((mode) => {
-                const Icon = mode.icon;
-                return (
-                  <article
-                    key={mode.title}
-                    className="flex min-h-24 items-center gap-4 rounded border border-white/10 bg-white/[0.045] p-5"
-                  >
-                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded bg-cyan-300/12 text-cyan-100">
-                      <Icon className="h-6 w-6" aria-hidden="true" />
-                    </span>
-                    <h3 className="text-lg font-semibold text-white">{mode.title}</h3>
-                  </article>
-                );
-              })}
+            <p className="text-sm font-semibold text-cyan-100">速度说明</p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
+              不额外限速。体验取决于你本身的正常网络。
+            </h2>
+            <p className="mt-6 text-base leading-8 text-slate-300 sm:text-lg">
+              如果你的本地网络本身稳定，私人节点会更容易保持流畅；如果当前网络波动，实际访问体验也会跟着变化。
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-cyan-100/[0.18] bg-[#081f38] p-6 shadow-[0_0_80px_rgba(56,189,248,0.13)]">
+            <div className="flex items-center justify-between gap-5 border-b border-white/10 pb-5">
+              <div>
+                <p className="text-sm text-slate-400">节点位置</p>
+                <p className="mt-2 text-3xl font-semibold text-white">美国</p>
+              </div>
+              <span className="grid h-14 w-14 place-items-center rounded-full bg-cyan-200 text-slate-950">
+                <Wifi className="h-7 w-7" aria-hidden="true" />
+              </span>
+            </div>
+            <div className="grid gap-4 pt-6 sm:grid-cols-2">
+              <Metric label="使用方式" value="自己独享" />
+              <Metric label="速度策略" value="不限速" />
+              <Metric label="适合场景" value="日常加速" />
+              <Metric label="访问范围" value="海外网络" />
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="grid gap-4">
-            <InfoBlock
-              icon={<CircleDollarSign className="h-6 w-6" aria-hidden="true" />}
-              title="费用说明"
-              body="安装服务费不包含服务器费用，服务器费用另计，参考约160元/年。实际费用以所选服务商与配置为准。"
-            />
-            <InfoBlock
-              icon={<UserCheck className="h-6 w-6" aria-hidden="true" />}
-              title="使用提醒"
-              body="仅限本人使用，多设备同时在线可能影响体验。建议按实际设备数量与使用习惯确认配置方案。"
-            />
-            <InfoBlock
-              icon={<AlertTriangle className="h-6 w-6" aria-hidden="true" />}
-              title="售后免责"
-              body="网络环境、服务器商、第三方平台、个人误操作等因素可能影响实际体验，不承诺绝对稳定。"
-            />
+      <section className="bg-[#020b18] px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+            <div>
+              <p className="text-sm font-semibold text-cyan-100">购买与配置</p>
+              <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
+                从沟通到交付，按步骤完成。
+              </h2>
+            </div>
+            <div className="grid gap-3">
+              {setupSteps.map((step, index) => (
+                <div
+                  key={step}
+                  className="flex min-h-20 items-center gap-5 rounded-lg border border-white/10 bg-white/[0.052] px-5"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cyan-200 text-sm font-black text-slate-950">
+                    {index + 1}
+                  </span>
+                  <span className="text-xl font-semibold text-white">{step}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="contact" className="bg-[#06111d] px-5 py-16 sm:px-8 lg:px-10">
-        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 border-t border-cyan-200/[0.18] pt-10 md:flex-row md:items-center">
-          <div>
-            <p className="text-sm font-semibold tracking-[0.24em] text-cyan-100">
-              READY TO CONFIGURE
-            </p>
-            <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-normal text-white sm:text-4xl">
-              需要私人服务器环境配置？现在就可以开始沟通。
-            </h2>
+      <section className="border-y border-white/10 bg-[#061528] px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-3">
+          <Notice
+            icon={<CheckCircle2 className="h-6 w-6" aria-hidden="true" />}
+            title="费用说明"
+            text="安装服务费不包含服务器费用，服务器费用另计，参考约160元/年。"
+          />
+          <Notice
+            icon={<ShieldCheck className="h-6 w-6" aria-hidden="true" />}
+            title="使用提醒"
+            text="仅限本人使用，多设备同时在线可能影响体验。"
+          />
+          <Notice
+            icon={<MousePointerClick className="h-6 w-6" aria-hidden="true" />}
+            title="体验边界"
+            text="本地网络、服务器商、第三方平台策略和个人误操作等因素，都会影响实际稳定性。"
+          />
+        </div>
+      </section>
+
+      <section className="bg-[#020b18] px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-7xl rounded-lg border border-cyan-100/[0.18] bg-[linear-gradient(135deg,rgba(14,116,144,0.25),rgba(15,23,42,0.86))] p-7 shadow-[0_0_90px_rgba(56,189,248,0.14)] sm:p-10">
+          <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
+            <div>
+              <p className="text-sm font-semibold text-cyan-100">准备购买</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
+                点击进入个人名片，发送“购买服务器”即可联系。
+              </h2>
+            </div>
+            <a
+              href="/card"
+              className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-white px-7 text-base font-bold text-slate-950 transition hover:bg-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-100 sm:w-auto"
+            >
+              <Mail className="h-5 w-5" aria-hidden="true" />
+              个人名片
+            </a>
           </div>
-          <a
-            href="mailto:QQ3914085948"
-            className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded bg-white px-6 text-base font-bold text-slate-950 transition hover:bg-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-100 md:w-auto"
-          >
-            <MessageCircle className="h-5 w-5" aria-hidden="true" />
-            立即联系
-          </a>
         </div>
       </section>
     </main>
   );
 }
 
-function SectionIntro({
-  icon,
-  eyebrow,
-  title,
-  description
-}: {
-  icon: ReactNode;
-  eyebrow: string;
-  title: string;
-  description: string;
-}) {
+function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="max-w-3xl">
-      <p className="inline-flex items-center gap-2 text-sm font-semibold tracking-[0.22em] text-cyan-100">
-        {icon}
-        {eyebrow}
-      </p>
-      <h2 className="mt-4 text-3xl font-semibold tracking-normal text-white sm:text-4xl">
-        {title}
-      </h2>
-      <p className="mt-4 text-base leading-8 text-slate-300">{description}</p>
+    <div className="rounded-lg border border-white/10 bg-white/[0.045] p-5">
+      <p className="text-sm text-slate-400">{label}</p>
+      <p className="mt-3 text-2xl font-semibold text-cyan-50">{value}</p>
     </div>
   );
 }
 
-function InfoBlock({
+function Notice({
   icon,
   title,
-  body
+  text
 }: {
   icon: ReactNode;
   title: string;
-  body: string;
+  text: string;
 }) {
   return (
-    <article className="rounded border border-cyan-200/[0.18] bg-slate-950/[0.38] p-6 shadow-glow">
-      <div className="flex items-center gap-4">
-        <span className="grid h-12 w-12 shrink-0 place-items-center rounded bg-cyan-300/12 text-cyan-100">
-          {icon}
-        </span>
-        <h3 className="text-xl font-semibold text-white">{title}</h3>
-      </div>
-      <p className="mt-4 text-sm leading-7 text-slate-300">{body}</p>
+    <article className="rounded-lg border border-white/10 bg-white/[0.052] p-6">
+      <span className="grid h-12 w-12 place-items-center rounded-full bg-cyan-200 text-slate-950">
+        {icon}
+      </span>
+      <h3 className="mt-6 text-xl font-semibold text-white">{title}</h3>
+      <p className="mt-4 text-sm leading-7 text-slate-300">{text}</p>
     </article>
   );
 }
