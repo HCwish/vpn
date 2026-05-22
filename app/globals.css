@@ -37,3 +37,52 @@ body {
     linear-gradient(90deg, rgba(125, 211, 252, 0.08) 1px, transparent 1px);
   background-size: 56px 56px;
 }
+
+.interactive-card {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    background-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.interactive-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background: radial-gradient(
+    420px circle at var(--mouse-x, 50%) var(--mouse-y, 0%),
+    rgba(125, 211, 252, 0.18),
+    transparent 55%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.interactive-card:hover {
+  border-color: rgba(125, 211, 252, 0.34);
+  box-shadow: 0 24px 80px rgba(8, 47, 73, 0.28);
+  transform: translateY(-4px);
+}
+
+.interactive-card:hover::before {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .interactive-card {
+    transition: none;
+  }
+
+  .interactive-card:hover {
+    transform: none;
+  }
+}
