@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import type { ReactNode } from "react";
+import { type ReactNode, useState } from "react";
 import {
   ArrowRight,
   CheckCircle2,
@@ -12,8 +14,11 @@ import {
   ShieldCheck,
   Sparkles,
   UserCheck,
-  Wifi
+  Wifi,
+  XCircle
 } from "lucide-react";
+
+const installFee = 298;
 
 const promiseItems = [
   "私人 VPN 服务器梯子节点",
@@ -41,6 +46,27 @@ const productPoints = [
   }
 ];
 
+const sharedProblems = [
+  "多人共享，晚高峰容易拥挤",
+  "速度和稳定性容易被别人影响",
+  "公共资源边界不清晰",
+  "问题排查难，售后定位慢"
+];
+
+const privateBenefits = [
+  "一人一服，资源自己使用",
+  "不额外限速，体验更可控",
+  "美国节点明确，适合日常访问",
+  "远程配置交付，后续更好维护"
+];
+
+const platformCards = [
+  { name: "Netflix", mark: "N", style: "bg-[#e50914] text-white" },
+  { name: "ChatGPT", mark: "GPT", style: "bg-[#10a37f] text-white" },
+  { name: "YouTube", mark: "▶", style: "bg-[#ff0033] text-white" },
+  { name: "Google", mark: "G", style: "bg-white text-[#4285f4]" }
+];
+
 const setupSteps = [
   "确认需求",
   "购买服务器",
@@ -48,7 +74,54 @@ const setupSteps = [
   "交付使用"
 ];
 
+const serverPlans = [
+  {
+    name: "入门型",
+    cpu: "1vCPU 核心",
+    storage: "20GB SSD 储存",
+    memory: "1GB RAM 内存",
+    traffic: "每月 3000GB 流量",
+    serverFee: 160
+  },
+  {
+    name: "轻量型",
+    cpu: "2vCPU 核心",
+    storage: "35GB SSD 储存",
+    memory: "2GB RAM 内存",
+    traffic: "每月 5000GB 流量",
+    serverFee: 255
+  },
+  {
+    name: "标准型",
+    cpu: "3vCPU 核心",
+    storage: "60GB SSD 储存",
+    memory: "4GB RAM 内存",
+    traffic: "每月 7000GB 流量",
+    serverFee: 420
+  },
+  {
+    name: "进阶型",
+    cpu: "6vCPU 核心",
+    storage: "100GB SSD 储存",
+    memory: "6GB RAM 内存",
+    traffic: "每月 12000GB 流量",
+    serverFee: 625
+  },
+  {
+    name: "高配型",
+    cpu: "7vCPU 核心",
+    storage: "150GB SSD 储存",
+    memory: "8GB RAM 内存",
+    traffic: "每月 20000GB 流量",
+    serverFee: 830
+  }
+];
+
 export default function Home() {
+  const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
+  const selectedPlan = serverPlans[selectedPlanIndex];
+  const totalPrice = installFee + selectedPlan.serverFee;
+
   return (
     <main className="min-h-screen overflow-hidden bg-[#020b18] text-white">
       <section className="relative min-h-screen overflow-hidden">
@@ -75,10 +148,10 @@ export default function Home() {
             </a>
             <nav className="flex items-center gap-2">
               <a
-                href="#details"
+                href="#pricing"
                 className="hidden min-h-10 items-center rounded-full px-4 text-sm font-medium text-slate-200 transition hover:bg-white/10 sm:inline-flex"
               >
-                了解详情
+                价目表
               </a>
               <a
                 href="/card"
@@ -111,10 +184,10 @@ export default function Home() {
                   发送“购买服务器”
                 </a>
                 <a
-                  href="#details"
+                  href="#pricing"
                   className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-white/[0.18] bg-white/10 px-7 text-base font-semibold text-white backdrop-blur transition hover:bg-white/[0.16] focus:outline-none focus:ring-2 focus:ring-white/60 sm:w-auto"
                 >
-                  查看节点说明
+                  服务器价目表
                   <ArrowRight className="h-5 w-5" aria-hidden="true" />
                 </a>
               </div>
@@ -159,6 +232,58 @@ export default function Home() {
                 </article>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-[#061528] px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="text-sm font-semibold text-cyan-100">共享节点 vs 私人节点</p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
+              重点不是“能不能用”，而是长期使用是否省心。
+            </h2>
+          </div>
+
+          <div className="mt-12 grid gap-5 lg:grid-cols-2">
+            <ComparePanel
+              tone="muted"
+              title="共享节点常见缺点"
+              items={sharedProblems}
+            />
+            <ComparePanel
+              tone="bright"
+              title="私人节点主要优点"
+              items={privateBenefits}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#020b18] px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center">
+          <div>
+            <p className="text-sm font-semibold text-cyan-100">日常访问场景</p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
+              面向主流美国网站和日常海外网络访问。
+            </h2>
+            <p className="mt-6 text-base leading-8 text-slate-300 sm:text-lg">
+              图标为页面内生成的展示卡片，用于表达常见访问场景；具体访问体验仍取决于本地网络、服务器状态和第三方平台策略。
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            {platformCards.map((platform) => (
+              <div
+                key={platform.name}
+                className="flex min-h-36 flex-col justify-between rounded-lg border border-white/10 bg-white/[0.055] p-5 shadow-[0_20px_70px_rgba(0,0,0,0.22)]"
+              >
+                <span className={`grid h-14 w-14 place-items-center rounded-2xl text-xl font-black ${platform.style}`}>
+                  {platform.mark}
+                </span>
+                <p className="text-xl font-semibold text-white">{platform.name}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -221,12 +346,90 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-y border-white/10 bg-[#061528] px-5 py-20 sm:px-8 lg:px-10">
+      <section id="pricing" className="border-y border-white/10 bg-[#061528] px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="text-sm font-semibold text-cyan-100">服务器价目表</p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
+              收费=远程安装费用298元+服务器费用。
+            </h2>
+            <p className="mt-5 text-base leading-8 text-slate-300">
+              服务器费用按年参考，实际价格以服务商当前价格为准。选择不同规格，下方固定价格面板会显示对应参考总价。
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+            <div className="grid gap-3">
+              {serverPlans.map((plan, index) => {
+                const isSelected = selectedPlanIndex === index;
+                return (
+                  <button
+                    key={plan.name}
+                    type="button"
+                    aria-pressed={isSelected}
+                    onClick={() => setSelectedPlanIndex(index)}
+                    className={`min-h-24 rounded-lg border p-5 text-left transition focus:outline-none focus:ring-2 focus:ring-cyan-100 ${
+                      isSelected
+                        ? "border-cyan-100 bg-cyan-200 text-slate-950 shadow-[0_0_50px_rgba(103,232,249,0.2)]"
+                        : "border-white/10 bg-white/[0.055] text-white hover:border-cyan-100/[0.42] hover:bg-white/[0.08]"
+                    }`}
+                  >
+                    <div className="grid gap-4 md:grid-cols-[0.8fr_1.2fr] md:items-center">
+                      <div>
+                        <p className="text-sm font-bold">{plan.name}</p>
+                        <p className="mt-2 text-2xl font-black">{plan.cpu}</p>
+                      </div>
+                      <div className={`grid gap-2 text-sm md:grid-cols-2 ${isSelected ? "text-slate-800" : "text-slate-300"}`}>
+                        <span>{plan.storage}</span>
+                        <span>{plan.memory}</span>
+                        <span>{plan.traffic}</span>
+                        <span>每年 {plan.serverFee} 元</span>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            <aside className="lg:sticky lg:top-8">
+              <div className="min-h-[420px] rounded-lg border border-cyan-100/[0.22] bg-[#081f38] p-6 shadow-[0_0_90px_rgba(56,189,248,0.16)]">
+                <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-5">
+                  <div>
+                    <p className="text-sm text-slate-400">当前参考价格</p>
+                    <p className="mt-3 text-5xl font-black text-cyan-100">
+                      {totalPrice}元
+                    </p>
+                  </div>
+                  <span className="grid h-14 w-14 place-items-center rounded-full bg-cyan-200 text-slate-950">
+                    <ServerCog className="h-7 w-7" aria-hidden="true" />
+                  </span>
+                </div>
+
+                <div className="space-y-4 py-6">
+                  <PriceLine label="远程安装费用" value={`${installFee}元`} />
+                  <PriceLine label="服务器费用" value={`${selectedPlan.serverFee}元/年`} />
+                  <PriceLine label="选择规格" value={selectedPlan.name} />
+                </div>
+
+                <div className="rounded-lg bg-white/[0.055] p-5 text-sm leading-7 text-slate-300">
+                  <p className="font-semibold text-white">详情：</p>
+                  <p className="mt-2">
+                    安装费{installFee}元+服务器{selectedPlan.serverFee}元/年。
+                    当前规格为{selectedPlan.cpu}、{selectedPlan.storage}、{selectedPlan.memory}、{selectedPlan.traffic}。
+                  </p>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#020b18] px-5 py-20 sm:px-8 lg:px-10">
         <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-3">
           <Notice
             icon={<CheckCircle2 className="h-6 w-6" aria-hidden="true" />}
             title="费用说明"
-            text="安装服务费不包含服务器费用，服务器费用另计，参考约160元/年。"
+            text="远程安装费用298元，服务器费用另计。入门规格服务器费用参考160元/年，总参考价格458元。"
           />
           <Notice
             icon={<ShieldCheck className="h-6 w-6" aria-hidden="true" />}
@@ -241,7 +444,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#020b18] px-5 py-20 sm:px-8 lg:px-10">
+      <section className="bg-[#020b18] px-5 pb-20 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl rounded-lg border border-cyan-100/[0.18] bg-[linear-gradient(135deg,rgba(14,116,144,0.25),rgba(15,23,42,0.86))] p-7 shadow-[0_0_90px_rgba(56,189,248,0.14)] sm:p-10">
           <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
             <div>
@@ -261,6 +464,64 @@ export default function Home() {
         </div>
       </section>
     </main>
+  );
+}
+
+function ComparePanel({
+  title,
+  items,
+  tone
+}: {
+  title: string;
+  items: string[];
+  tone: "muted" | "bright";
+}) {
+  const isBright = tone === "bright";
+
+  return (
+    <article
+      className={`rounded-lg border p-6 ${
+        isBright
+          ? "border-cyan-100/[0.28] bg-cyan-200 text-slate-950"
+          : "border-white/10 bg-white/[0.055] text-white"
+      }`}
+    >
+      <div className="flex items-center gap-3">
+        <span
+          className={`grid h-11 w-11 place-items-center rounded-full ${
+            isBright ? "bg-slate-950 text-cyan-100" : "bg-white/[0.08] text-slate-400"
+          }`}
+        >
+          {isBright ? (
+            <CheckCircle2 className="h-6 w-6" aria-hidden="true" />
+          ) : (
+            <XCircle className="h-6 w-6" aria-hidden="true" />
+          )}
+        </span>
+        <h3 className="text-2xl font-semibold">{title}</h3>
+      </div>
+      <div className="mt-8 grid gap-3">
+        {items.map((item) => (
+          <div
+            key={item}
+            className={`rounded-lg px-4 py-4 text-base font-semibold ${
+              isBright ? "bg-white/[0.45] text-slate-950" : "bg-slate-950/[0.34] text-slate-300"
+            }`}
+          >
+            {item}
+          </div>
+        ))}
+      </div>
+    </article>
+  );
+}
+
+function PriceLine({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4 text-sm">
+      <span className="text-slate-400">{label}</span>
+      <span className="font-bold text-white">{value}</span>
+    </div>
   );
 }
 
