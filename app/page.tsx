@@ -1,111 +1,304 @@
+import Image from "next/image";
 import Link from "next/link";
 
-const buyHref = "/pay";
+const serviceModes = [
+  {
+    name: "全教程模式",
+    fee: 298,
+    badge: "推荐",
+    text: "远程协助，从 0 开始带你完成配置，适合想学会完整流程的新手。"
+  },
+  {
+    name: "懒人模式",
+    fee: 98,
+    badge: "省心",
+    text: "无需远程安装，配置完成后直接交付使用，适合只想快速开通的用户。"
+  }
+];
 
-const plans = [
-  ["入门型", "1vCPU / 1GB RAM / 20GB SSD", "160元/年"],
-  ["轻量型", "2vCPU / 2GB RAM / 35GB SSD", "255元/年"],
-  ["标准型", "3vCPU / 4GB RAM / 60GB SSD", "420元/年"],
-  ["进阶型", "6vCPU / 6GB RAM / 100GB SSD", "625元/年"],
-  ["高配型", "7vCPU / 8GB RAM / 150GB SSD", "830元/年"]
+const serverPlans = [
+  { name: "入门型", cpu: "1vCPU", memory: "1GB RAM", storage: "20GB SSD", traffic: "3000GB/月", serverFee: 160 },
+  { name: "轻量型", cpu: "2vCPU", memory: "2GB RAM", storage: "35GB SSD", traffic: "5000GB/月", serverFee: 255 },
+  { name: "标准型", cpu: "3vCPU", memory: "4GB RAM", storage: "60GB SSD", traffic: "7000GB/月", serverFee: 420 },
+  { name: "进阶型", cpu: "6vCPU", memory: "6GB RAM", storage: "100GB SSD", traffic: "12000GB/月", serverFee: 625 },
+  { name: "高配型", cpu: "7vCPU", memory: "8GB RAM", storage: "150GB SSD", traffic: "20000GB/月", serverFee: 830 }
+];
+
+const values = [
+  ["自己独享", "一人一服，不和陌生人共享资源，使用边界更清楚。"],
+  ["不额外限速", "服务本身不额外限速，实际体验取决于你的本地网络和线路状态。"],
+  ["美国节点", "适合日常网络访问、资料查询、个人办公和海外网站访问。"],
+  ["安装指导", "可选完整远程教学，也可选择搭建后直接交付。"],
+  ["售后说明", "安装、换设备、基础使用问题会协助说明。"]
+];
+
+const faqs = [
+  ["我家网不好有影响吗？", "有影响。体验会受到本地网络、设备和第三方平台状态影响。"],
+  ["服务费包含什么？", "懒人模式包含搭建后交付；全教程模式包含远程协助、环境配置和使用说明。"],
+  ["是一次性费用还是每年都收？", "服务费只收一次；服务器费用按年参考，到期后如继续使用需要续费。"],
+  ["支持什么设备？", "目前主要支持 Windows exe 和安卓 apk。"],
+  ["不满意能否退款？", "未开始配置可沟通退款；已完成配置后不支持退款。"]
 ];
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#020b18] text-white">
-      <section className="px-5 py-8 sm:px-8">
-        <div className="mx-auto max-w-5xl">
+      <section className="relative min-h-[92vh] overflow-hidden">
+        <Image
+          src="/server-hero.png"
+          alt="VPRO 私人节点服务"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,11,24,0.38)_0%,rgba(2,11,24,0.86)_72%,#020b18_100%)]" />
+
+        <div className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col px-5 py-6 sm:px-8 lg:px-10">
           <header className="flex items-center justify-between gap-4">
-            <a href="/" className="text-lg font-bold text-cyan-100">
-              VPRO
+            <a href="#" className="flex items-center gap-3">
+              <span className="grid h-10 w-10 place-items-center rounded-full border border-cyan-200/30 bg-white/10 text-sm font-black text-cyan-100">
+                V
+              </span>
+              <span className="text-sm font-semibold text-cyan-50">VPRO 私人节点</span>
             </a>
-            <Link
-              href="/card"
-              className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-950"
-            >
-              联系方式
-            </Link>
+            <nav className="flex items-center gap-2">
+              <a href="#pricing" className="hidden min-h-10 items-center rounded-full px-4 text-sm font-medium text-slate-200 transition hover:bg-white/10 sm:inline-flex">
+                价格
+              </a>
+              <a href="#faq" className="hidden min-h-10 items-center rounded-full px-4 text-sm font-medium text-slate-200 transition hover:bg-white/10 sm:inline-flex">
+                问答
+              </a>
+              <Link href="/card" className="inline-flex min-h-10 items-center rounded-full bg-white px-4 text-sm font-semibold text-slate-950 transition hover:bg-cyan-100">
+                联系开通
+              </Link>
+            </nav>
           </header>
 
-          <div className="py-16 text-center sm:py-20">
-            <p className="text-sm font-semibold text-cyan-100">私人节点服务</p>
-            <h1 className="mt-4 text-4xl font-semibold tracking-normal sm:text-6xl">
-              一人一服，省心开通
-            </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-300">
-              选择商品后付款，付款完成进入名片页面联系开通。
-            </p>
-            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-              <a
-                href="#pricing"
-                className="inline-flex min-h-12 items-center justify-center rounded-full bg-cyan-200 px-7 text-base font-bold text-slate-950"
-              >
-                选择商品
-              </a>
-              <Link
-                href="/card"
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 bg-white/10 px-7 text-base font-bold text-white"
-              >
-                先联系
-              </Link>
+          <div className="flex flex-1 items-center justify-center py-16 text-center sm:py-20">
+            <div className="max-w-5xl">
+              <p className="mx-auto mb-6 inline-flex items-center rounded-full border border-cyan-100/25 bg-white/10 px-4 py-2 text-sm font-medium text-cyan-50">
+                一人一服 · 专属使用 · 远程协助
+              </p>
+              <h1 className="text-4xl font-semibold leading-tight tracking-normal sm:text-6xl lg:text-7xl">
+                私人节点服务
+              </h1>
+              <p className="mx-auto mt-7 max-w-3xl text-lg leading-9 text-slate-200 sm:text-xl">
+                自己独享，边界清楚。适合个人日常网络访问、资料查询和办公使用，按你的需求选择服务模式和服务器规格。
+              </p>
+              <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <a href="#pricing" className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-cyan-200 px-7 text-base font-bold text-slate-950 transition hover:bg-white sm:w-auto">
+                  选择商品
+                </a>
+                <Link href="/card" className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/[0.18] bg-white/10 px-7 text-base font-semibold text-white transition hover:bg-white/[0.16] sm:w-auto">
+                  联系方式
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-3 pb-5 sm:grid-cols-2 lg:grid-cols-5">
+            {["独享使用", "稳定流畅", "远程安装", "售后指导", "长期可用"].map((item) => (
+              <div key={item} className="rounded-full border border-white/10 bg-slate-950/[0.42] px-4 py-3 text-center text-sm font-semibold text-slate-100">
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <SectionTitle eyebrow="核心卖点" title="更像你的私人网络工具，而不是拥挤的公共资源。" />
+          <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            {values.map(([title, text]) => (
+              <article key={title} className="rounded-lg border border-white/10 bg-white/[0.055] p-5">
+                <span className="grid h-12 w-12 place-items-center rounded-full bg-cyan-200 text-lg font-black text-slate-950">
+                  ✓
+                </span>
+                <h3 className="mt-8 text-xl font-semibold">{title}</h3>
+                <p className="mt-4 text-sm leading-7 text-slate-300">{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-[#061528] px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2">
+          <div>
+            <p className="text-sm font-semibold text-cyan-100">支持设备</p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal sm:text-5xl">
+              目前主要支持 Windows 和安卓。
+            </h2>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <article className="rounded-lg border border-white/10 bg-white/[0.055] p-6">
+                <h3 className="text-2xl font-semibold">Windows</h3>
+                <p className="mt-3 text-base text-slate-300">使用 exe 应用</p>
+              </article>
+              <article className="rounded-lg border border-white/10 bg-white/[0.055] p-6">
+                <h3 className="text-2xl font-semibold">安卓</h3>
+                <p className="mt-3 text-base text-slate-300">使用 apk 应用</p>
+              </article>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-cyan-100">服务流程</p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal sm:text-5xl">
+              从选择商品到联系开通，步骤清楚。
+            </h2>
+            <div className="mt-8 grid gap-3">
+              {["选择服务模式", "选择服务器规格", "跳转付款链接", "付款后进入名片联系"].map((step, index) => (
+                <div key={step} className="rounded-lg border border-white/10 bg-white/[0.052] p-5">
+                  <div className="flex items-center gap-4">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-cyan-200 text-sm font-black text-slate-950">
+                      {index + 1}
+                    </span>
+                    <p className="text-xl font-semibold">{step}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section id="pricing" className="px-5 pb-16 sm:px-8">
-        <div className="mx-auto max-w-5xl">
-          <div className="grid gap-5 lg:grid-cols-[1fr_20rem]">
-            <div className="space-y-5">
-              <div className="rounded-lg border border-white/10 bg-white/[0.055] p-5">
-                <p className="text-sm font-semibold text-cyan-100">服务模式</p>
-                <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-lg bg-cyan-200 p-5 text-slate-950">
-                    <p className="text-xl font-black">全教程模式</p>
-                    <p className="mt-2 text-sm font-semibold">远程协助，从 0 完成配置。</p>
-                    <p className="mt-5 text-3xl font-black">298元</p>
-                  </div>
-                  <div className="rounded-lg border border-white/10 bg-slate-950/35 p-5">
-                    <p className="text-xl font-black">懒人模式</p>
-                    <p className="mt-2 text-sm text-slate-300">配置完成后直接交付。</p>
-                    <p className="mt-5 text-3xl font-black text-cyan-100">98元</p>
-                  </div>
+      <section id="pricing" className="px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <SectionTitle
+            eyebrow="选择商品"
+            title="收费=一次性服务费+服务器年费"
+            description="服务费只收取一次；服务器费用按年参考，实际价格以服务商当前价格为准。"
+          />
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+            <div className="space-y-6">
+              <div>
+                <p className="mb-3 text-sm font-semibold text-cyan-100">服务模式</p>
+                <div className="grid gap-3 md:grid-cols-2">
+                  {serviceModes.map((mode) => (
+                    <article key={mode.name} className="rounded-lg border border-white/10 bg-white/[0.055] p-5">
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <p className="text-xl font-black">{mode.name}</p>
+                          <p className="mt-3 text-sm leading-6 text-slate-300">{mode.text}</p>
+                        </div>
+                        <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-cyan-100">
+                          {mode.badge}
+                        </span>
+                      </div>
+                      <p className="mt-5 text-3xl font-black text-cyan-100">{mode.fee}元</p>
+                    </article>
+                  ))}
                 </div>
               </div>
 
-              <div className="rounded-lg border border-white/10 bg-white/[0.055] p-5">
-                <p className="text-sm font-semibold text-cyan-100">服务器规格</p>
-                <div className="mt-4 grid gap-3">
-                  {plans.map(([name, spec, price]) => (
-                    <div
-                      key={name}
-                      className="grid gap-2 rounded-lg border border-white/10 bg-slate-950/35 p-4 sm:grid-cols-[7rem_1fr_6rem] sm:items-center"
-                    >
-                      <p className="font-bold text-white">{name}</p>
-                      <p className="text-sm text-slate-300">{spec}</p>
-                      <p className="font-bold text-cyan-100">{price}</p>
-                    </div>
+              <div>
+                <p className="mb-3 text-sm font-semibold text-cyan-100">服务器规格</p>
+                <div className="grid gap-3">
+                  {serverPlans.map((plan) => (
+                    <article key={plan.name} className="rounded-lg border border-white/10 bg-white/[0.055] p-5">
+                      <div className="grid gap-4 md:grid-cols-[0.8fr_1.2fr] md:items-center">
+                        <div>
+                          <p className="text-sm font-bold">{plan.name}</p>
+                          <p className="mt-2 text-2xl font-black">{plan.cpu}</p>
+                        </div>
+                        <div className="grid gap-2 text-sm text-slate-300 md:grid-cols-2">
+                          <span>{plan.storage}</span>
+                          <span>{plan.memory}</span>
+                          <span>{plan.traffic}</span>
+                          <span>每年 {plan.serverFee} 元</span>
+                        </div>
+                      </div>
+                    </article>
                   ))}
                 </div>
               </div>
             </div>
 
-            <aside className="rounded-lg border border-cyan-100/25 bg-[#081f38] p-6">
-              <p className="text-sm text-slate-400">推荐组合</p>
-              <p className="mt-3 text-4xl font-black text-cyan-100">458元</p>
-              <p className="mt-3 text-sm leading-7 text-slate-300">
-                全教程模式 + 入门型服务器。其他规格可付款后联系调整。
-              </p>
-              <Link
-                href={buyHref}
-                className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-cyan-200 px-7 text-base font-bold text-slate-950"
-              >
-                立即购买
-              </Link>
+            <aside className="lg:sticky lg:top-8">
+              <div className="rounded-lg border border-cyan-100/[0.22] bg-[#081f38] p-6 shadow-[0_0_90px_rgba(56,189,248,0.16)]">
+                <div className="border-b border-white/10 pb-5">
+                  <p className="text-sm text-slate-400">推荐参考价</p>
+                  <p className="mt-3 text-5xl font-black text-cyan-100">458元</p>
+                </div>
+                <div className="space-y-4 py-6">
+                  <PriceLine label="服务模式" value="全教程模式" />
+                  <PriceLine label="一次性服务费" value="298元" />
+                  <PriceLine label="服务器费用" value="160元/年" />
+                  <PriceLine label="服务器规格" value="入门型" />
+                </div>
+                <Link href="/pay" className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-cyan-200 px-7 text-base font-bold text-slate-950 transition hover:bg-white">
+                  立即购买
+                </Link>
+                <p className="mt-4 text-xs leading-6 text-slate-400">
+                  如需其他规格，付款后通过名片页面联系调整。
+                </p>
+              </div>
             </aside>
           </div>
         </div>
       </section>
+
+      <section id="faq" className="border-y border-white/10 bg-[#061528] px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-4xl">
+          <SectionTitle eyebrow="常见问答" title="开通前，把关键问题说清楚。" />
+          <div className="mt-12 space-y-3">
+            {faqs.map(([question, answer]) => (
+              <article key={question} className="rounded-lg border border-white/10 bg-white/[0.052] p-5">
+                <h3 className="text-lg font-semibold">{question}</h3>
+                <p className="mt-3 text-sm leading-7 text-slate-300">{answer}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-7xl rounded-lg border border-cyan-100/[0.18] bg-[linear-gradient(135deg,rgba(14,116,144,0.25),rgba(15,23,42,0.86))] p-7 shadow-[0_0_90px_rgba(56,189,248,0.14)] sm:p-10">
+          <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
+            <div>
+              <p className="text-sm font-semibold text-cyan-100">准备开通</p>
+              <h2 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight tracking-normal sm:text-5xl">
+                进入名片页面，发送“开通私人节点服务”即可联系。
+              </h2>
+              <p className="mt-5 text-sm leading-7 text-slate-300">
+                QQ 3914085948，邮箱 hcwishpro@gmail.com。
+              </p>
+            </div>
+            <Link href="/card" className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-white px-7 text-base font-bold text-slate-950 transition hover:bg-cyan-100 sm:w-auto">
+              个人名片
+            </Link>
+          </div>
+        </div>
+      </section>
     </main>
+  );
+}
+
+function SectionTitle({
+  eyebrow,
+  title,
+  description
+}: {
+  eyebrow: string;
+  title: string;
+  description?: string;
+}) {
+  return (
+    <div className="mx-auto max-w-4xl text-center">
+      <p className="text-sm font-semibold text-cyan-100">{eyebrow}</p>
+      <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal sm:text-5xl">{title}</h2>
+      {description ? <p className="mt-5 text-base leading-8 text-slate-300">{description}</p> : null}
+    </div>
+  );
+}
+
+function PriceLine({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4 text-sm">
+      <span className="text-slate-400">{label}</span>
+      <span className="font-bold text-white">{value}</span>
+    </div>
   );
 }
