@@ -231,7 +231,7 @@ export default function Home() {
             </h2>
           </div>
           <a
-            href="mailto:service@example.com"
+            href="mailto:QQ3914085948"
             className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded bg-white px-6 text-base font-bold text-slate-950 transition hover:bg-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-100 md:w-auto"
           >
             <MessageCircle className="h-5 w-5" aria-hidden="true" />
