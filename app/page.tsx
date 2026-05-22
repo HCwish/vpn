@@ -7,6 +7,7 @@ import {
   ArrowRight,
   CheckCircle2,
   ChevronDown,
+  CreditCard,
   Gauge,
   Globe2,
   Mail,
@@ -531,6 +532,14 @@ export default function Home() {
                     当前规格为{selectedPlan.cpu}、{selectedPlan.storage}、{selectedPlan.memory}、{selectedPlan.traffic}。
                   </p>
                 </div>
+
+                <a
+                  href={`/pay?mode=${selectedModeIndex}&plan=${selectedPlanIndex}`}
+                  className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-cyan-200 px-7 text-base font-bold text-slate-950 transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-100"
+                >
+                  <CreditCard className="h-5 w-5" aria-hidden="true" />
+                  立即付款
+                </a>
               </div>
             </aside>
           </div>
