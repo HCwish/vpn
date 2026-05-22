@@ -538,7 +538,7 @@ export default function Home() {
                   className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-cyan-200 px-7 text-base font-bold text-slate-950 transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-100"
                 >
                   <CreditCard className="h-5 w-5" aria-hidden="true" />
-                  立即付款
+                  立即购买
                 </a>
               </div>
             </aside>

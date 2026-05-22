@@ -8,23 +8,12 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: false, message: "missing_contact" }, 400);
   }
 
-  const contact = {
-    orderId,
-    contactType,
-    contactValue,
-    submittedAt: new Date().toISOString()
-  };
-
-  if (env.ORDERS) {
-    await env.ORDERS.put(`contact:${orderId || crypto.randomUUID()}`, JSON.stringify(contact), {
-      expirationTtl: 60 * 60 * 24 * 30
-    });
-  }
-
+  const submittedAt = new Date().toISOString();
   const notified = await notifyQQ(env, [
     "VPRO 用户提交联系方式",
     orderId ? `订单号：${orderId}` : "订单号：未提供",
-    `联系方式：${contactType === "qq" ? "QQ" : "邮箱"} ${contactValue}`
+    `联系方式：${contactType === "qq" ? "QQ" : "邮箱"} ${contactValue}`,
+    `提交时间：${submittedAt}`
   ].join("\n"));
 
   return json({ ok: true, notified });
