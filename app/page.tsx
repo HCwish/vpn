@@ -43,6 +43,15 @@ const faqs = [
   ["不满意能否退款？", "未开始配置可沟通退款；已完成配置后不支持退款。"]
 ];
 
+const reviews = [
+  ["135*****", "开通很快，说明也清楚，按步骤就能用。"],
+  ["188*****", "全教程模式适合新手，远程讲得很细。"],
+  ["156*****", "懒人模式省心，交付后直接按说明使用。"],
+  ["177*****", "换设备时也帮忙说明了，回复比较及时。"],
+  ["139*****", "整体比之前用共享资源稳定，边界也清楚。"],
+  ["182*****", "配置和注意事项说得明白，适合长期用。"]
+];
+
 export default function Home() {
   const [modeIndex, setModeIndex] = useState(0);
   const [planIndex, setPlanIndex] = useState(0);
@@ -286,6 +295,41 @@ export default function Home() {
       </section>
 
       <section className="px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-7xl overflow-hidden">
+          <SectionTitle eyebrow="用户反馈" title="来自已开通用户的正向评价。" />
+          <div className="mt-12 flex gap-4 overflow-hidden">
+            <div className="review-marquee flex min-w-max gap-4">
+              {[...reviews, ...reviews].map(([name, text], index) => (
+                <article
+                  key={`${name}-${index}`}
+                  className="w-72 shrink-0 rounded-lg border border-white/10 bg-white/[0.055] p-5"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="h-12 w-12 overflow-hidden rounded-full bg-slate-800">
+                      <div
+                        className={`h-full w-full scale-125 blur-sm ${
+                          index % 3 === 0
+                            ? "bg-[radial-gradient(circle_at_30%_28%,#67e8f9,#1e3a8a_58%,#020617)]"
+                            : index % 3 === 1
+                              ? "bg-[radial-gradient(circle_at_35%_32%,#f0abfc,#0f766e_58%,#020617)]"
+                              : "bg-[radial-gradient(circle_at_35%_30%,#facc15,#0ea5e9_54%,#020617)]"
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-white">{name}</p>
+                      <p className="mt-1 text-xs text-cyan-100">已开通用户</p>
+                    </div>
+                  </div>
+                  <p className="mt-5 text-sm leading-7 text-slate-300">{text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 pb-20 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-7xl rounded-lg border border-cyan-100/[0.18] bg-[linear-gradient(135deg,rgba(14,116,144,0.25),rgba(15,23,42,0.86))] p-7 shadow-[0_0_90px_rgba(56,189,248,0.14)] sm:p-10">
           <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
             <div>
@@ -303,6 +347,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <footer className="border-t border-white/10 px-5 py-8 text-center text-xs leading-6 text-slate-500 sm:px-8">
+        本服务仅限合法合规的个人学习、办公、资料查询和日常网络访问使用。禁止用于诈骗、攻击、盗号、垃圾注册、传播违法内容、侵犯他人权益或其他任何非法用途；因个人违规使用产生的责任由使用者自行承担。
+      </footer>
     </main>
   );
 }

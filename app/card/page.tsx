@@ -24,7 +24,9 @@ export default function CardPage() {
 
             <div className="mt-8 grid gap-4">
               <a
-                href="tencent://message/?uin=3914085948&Site=&Menu=yes"
+                href="https://qm.qq.com/q/wZDoyvdaNO"
+                target="_blank"
+                rel="noreferrer"
                 className="rounded-lg border border-white/10 bg-white/[0.055] p-5"
               >
                 <p className="text-sm font-semibold text-cyan-100">QQ</p>
