@@ -35,11 +35,22 @@ const values = [
   ["售后说明", "安装、换设备、基础使用问题会协助说明。"]
 ];
 
+const internationalSites = [
+  ["YouTube", "youtube.com"],
+  ["ChatGPT", "chatgpt.com"],
+  ["Claude", "claude.ai"],
+  ["Netflix", "netflix.com"],
+  ["Google", "google.com"],
+  ["Gmail", "gmail.com"],
+  ["X", "x.com"],
+  ["Instagram", "instagram.com"]
+];
+
 const faqs = [
   ["我家网不好有影响吗？", "有影响。体验会受到本地网络、设备和第三方平台状态影响。"],
   ["服务费包含什么？", "懒人模式包含搭建后交付；全教程模式包含远程协助、环境配置和使用说明。"],
   ["是一次性费用还是每年都收？", "服务费只收一次；服务器费用按年参考，到期后如继续使用需要续费。"],
-  ["支持什么设备？", "目前主要支持 Windows exe 和安卓 apk。"],
+  ["支持什么设备？", "支持 Windows、安卓和 iOS。iOS 有限制，只能使用 Shadowrocket 软件。"],
   ["不满意能否退款？", "未开始配置可沟通退款；已完成配置后不支持退款。"]
 ];
 
@@ -152,9 +163,9 @@ export default function Home() {
           <div>
             <p className="text-sm font-semibold text-cyan-100">支持设备</p>
             <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-normal sm:text-5xl">
-              目前主要支持 Windows 和安卓。
+              支持 Windows、安卓和 iOS。
             </h2>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
               <article className="rounded-lg border border-white/10 bg-white/[0.055] p-6">
                 <h3 className="text-2xl font-semibold">Windows</h3>
                 <p className="mt-3 text-base text-slate-300">使用 exe 应用</p>
@@ -162,6 +173,10 @@ export default function Home() {
               <article className="rounded-lg border border-white/10 bg-white/[0.055] p-6">
                 <h3 className="text-2xl font-semibold">安卓</h3>
                 <p className="mt-3 text-base text-slate-300">使用 apk 应用</p>
+              </article>
+              <article className="rounded-lg border border-white/10 bg-white/[0.055] p-6">
+                <h3 className="text-2xl font-semibold">苹果 iOS</h3>
+                <p className="mt-3 text-base text-slate-300">仅支持 Shadowrocket</p>
               </article>
             </div>
           </div>
@@ -182,6 +197,36 @@ export default function Home() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 py-20 sm:px-8 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <SectionTitle
+            eyebrow="访问场景"
+            title="开启后可用于访问常见国际网站。"
+            description="图标仅用于展示常见访问场景，具体体验取决于本地网络、设备状态和第三方平台规则。"
+          />
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {internationalSites.map(([name, domain]) => (
+              <article key={name} className="rounded-lg border border-white/10 bg-white/[0.055] p-5">
+                <div className="flex items-center gap-4">
+                  <span className="grid h-14 w-14 place-items-center rounded-lg bg-white">
+                    <img
+                      src={`https://www.google.com/s2/favicons?domain=${domain}&sz=64`}
+                      alt={`${name} 图标`}
+                      className="h-9 w-9"
+                      loading="lazy"
+                    />
+                  </span>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white">{name}</h3>
+                    <p className="mt-1 text-sm text-slate-400">{domain}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>
